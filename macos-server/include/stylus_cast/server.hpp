@@ -1,11 +1,11 @@
 #pragma once
 
-#include "penbridge/config.hpp"
-#include "penbridge/injector.hpp"
-#include "penbridge/jitter_buffer.hpp"
-#include "penbridge/stream_filter.hpp"
-#include "penbridge/stroke_smoother.hpp"
-#include "penbridge/trace.hpp"
+#include "stylus_cast/config.hpp"
+#include "stylus_cast/injector.hpp"
+#include "stylus_cast/jitter_buffer.hpp"
+#include "stylus_cast/stream_filter.hpp"
+#include "stylus_cast/stroke_smoother.hpp"
+#include "stylus_cast/trace.hpp"
 
 #include <ApplicationServices/ApplicationServices.h>
 #include <netinet/in.h>
@@ -14,7 +14,7 @@
 #include <cstddef>
 #include <cstdint>
 
-namespace penbridge {
+namespace stylus_cast {
 
 // Receives packets, replays them at even timing and injects them, on one real-time thread.
 class Server {
@@ -54,4 +54,4 @@ private:
     uint64_t     rejected_     = 0;
 };
 
-} // namespace penbridge
+} // namespace stylus_cast

@@ -4,7 +4,7 @@
 #include <cstdint>
 #include <thread>
 
-namespace penbridge {
+namespace stylus_cast {
 
 // Broadcasts the discovery payload once per second on every IPv4 interface.
 class Beacon {
@@ -23,4 +23,4 @@ private:
     std::thread       thread_;
 };
 
-} // namespace penbridge
+} // namespace stylus_cast

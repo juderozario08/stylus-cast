@@ -1,10 +1,10 @@
 #pragma once
 
-#include "penbridge/protocol.hpp"
+#include "stylus_cast/protocol.hpp"
 
 #include <cstdint>
 
-namespace penbridge {
+namespace stylus_cast {
 
 // One pen sample in normalized units, at full precision.
 struct PenSample {
@@ -22,4 +22,4 @@ struct PenSample {
 
 PenSample toSample(const StylusPacket& packet);
 
-} // namespace penbridge
+} // namespace stylus_cast

@@ -1,10 +1,10 @@
-#include "penbridge/jitter_buffer.hpp"
+#include "stylus_cast/jitter_buffer.hpp"
 
 #include <algorithm>
 #include <limits>
 #include <vector>
 
-namespace penbridge {
+namespace stylus_cast {
 
 namespace {
 
@@ -215,4 +215,4 @@ JitterStats JitterBuffer::jitter() const {
     return {ms(0.50), ms(0.95), ms(0.99), ms(1.0)};
 }
 
-} // namespace penbridge
+} // namespace stylus_cast

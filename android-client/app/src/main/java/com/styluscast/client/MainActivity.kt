@@ -1,4 +1,4 @@
-package com.penbridge.client
+package com.styluscast.client
 
 import android.app.AlertDialog
 import android.content.Context
@@ -19,7 +19,7 @@ import androidx.core.view.WindowInsetsControllerCompat
 import java.net.InetAddress
 
 /**
- * PenBridge Android Client MainActivity.
+ * Stylus-Cast Android Client MainActivity.
  *
  * Responsibilities:
  * - Locks orientation to sensorLandscape and enters immersive edge-to-edge fullscreen.
@@ -31,7 +31,7 @@ import java.net.InetAddress
 class MainActivity : AppCompatActivity() {
 
     companion object {
-        private const val PREFS_NAME = "penbridge_prefs"
+        private const val PREFS_NAME = "styluscast_prefs"
         private const val KEY_MANUAL_IP = "manual_ip"
         private const val KEY_ASPECT_INDEX = "aspect_index"
 
@@ -140,7 +140,7 @@ class MainActivity : AppCompatActivity() {
             if (wifiLock == null) {
                 wifiLock = wifiManager.createWifiLock(
                     WifiManager.WIFI_MODE_FULL_LOW_LATENCY,
-                    "PenBridge::LowLatencyWifiLock"
+                    "StylusCast::LowLatencyWifiLock"
                 ).apply {
                     setReferenceCounted(false)
                 }
@@ -153,7 +153,7 @@ class MainActivity : AppCompatActivity() {
 
         try {
             if (multicastLock == null) {
-                multicastLock = wifiManager.createMulticastLock("PenBridge::BeaconMulticastLock").apply {
+                multicastLock = wifiManager.createMulticastLock("StylusCast::BeaconMulticastLock").apply {
                     setReferenceCounted(false)
                 }
             }
@@ -279,7 +279,7 @@ class MainActivity : AppCompatActivity() {
         container.addView(aspectSpinner)
 
         AlertDialog.Builder(this)
-            .setTitle("PenBridge Connection & Aspect Ratio")
+            .setTitle("Stylus-Cast Connection & Aspect Ratio")
             .setView(container)
             .setPositiveButton("Apply") { _, _ ->
                 val newIp = ipInput.text.toString().trim()

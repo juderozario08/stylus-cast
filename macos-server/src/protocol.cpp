@@ -1,9 +1,9 @@
-#include "penbridge/protocol.hpp"
+#include "stylus_cast/protocol.hpp"
 
 #include <algorithm>
 #include <cstring>
 
-namespace penbridge {
+namespace stylus_cast {
 
 bool isKnownPacketType(uint8_t type) {
     return type <= PACKET_TYPE_UP;
@@ -33,4 +33,4 @@ double normalizeTilt(int8_t degrees) {
     return std::clamp(static_cast<double>(degrees), -90.0, 90.0) / 90.0;
 }
 
-} // namespace penbridge
+} // namespace stylus_cast

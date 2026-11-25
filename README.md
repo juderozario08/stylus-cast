@@ -1,6 +1,6 @@
-# PenBridge: Ultra-Low-Latency Samsung S-Pen to macOS Digitizer
+# Stylus-Cast: Ultra-Low-Latency Samsung S-Pen to macOS Digitizer
 
-PenBridge turns a Samsung Galaxy phone with an S-Pen into an offline, wireless, low-latency absolute-coordinate Wacom-style drawing and handwriting tablet for macOS.
+Stylus-Cast turns a Samsung Galaxy phone with an S-Pen into an offline, wireless, low-latency absolute-coordinate Wacom-style drawing and handwriting tablet for macOS.
 
 - **Direct Local Link:** Uses a direct **5 GHz Mobile Hotspot** hosted on the Samsung phone so packets travel directly between the phone and MacBook with zero external router hops and zero internet dependency.
 - **16-Byte Binary UDP Wire Protocol:** Connectionless little-endian binary datagrams carry normalized coordinates (`x`, `y`), 16-bit pressure, planar tilt angles (`tiltX`, `tiltY`), S-Pen barrel button/eraser flags, a monotonic sequence counter (`seq`), and a sample timestamp.
@@ -17,7 +17,7 @@ PenBridge turns a Samsung Galaxy phone with an S-Pen into an offline, wireless, 
 ├── macos-server/
 │   ├── CMakeLists.txt           # The build definition; exports compile_commands.json
 │   ├── Makefile                 # Thin wrapper around CMake
-│   ├── include/penbridge/       # Declarations only
+│   ├── include/stylus_cast/     # Declarations only
 │   ├── src/
 │   │   ├── main.cpp             # Entry point
 │   │   ├── config.cpp           # Command-line options
@@ -44,7 +44,7 @@ PenBridge turns a Samsung Galaxy phone with an S-Pen into an offline, wireless, 
 │       ├── build.gradle.kts
 │       └── src/main/
 │           ├── AndroidManifest.xml
-│           ├── java/com/penbridge/client/
+│           ├── java/com/styluscast/client/
 │           │   ├── StylusPacket.kt      # 16-byte zero-allocation binary encoder & planar tilt math
 │           │   ├── UdpSender.kt         # Lock-free SPSC ring buffer & high-priority UDP sender thread
 │           │   ├── BeaconDiscovery.kt   # UDP :9001 listener for "MAC_TABLET_SERVER" broadcast beacon
@@ -73,7 +73,7 @@ PenBridge turns a Samsung Galaxy phone with an S-Pen into an offline, wireless, 
 cd macos-server
 make
 make test
-./penbridge-server --stats
+./stylus-cast-server --stats
 ```
 
 #### Option B: Build with `cmake`
@@ -82,14 +82,14 @@ cd macos-server
 cmake -B build -DCMAKE_BUILD_TYPE=Release
 cmake --build build
 ctest --test-dir build --output-on-failure
-./build/penbridge-server --stats
+./build/stylus-cast-server --stats
 ```
 
 Both options write `build/compile_commands.json`, which clangd finds automatically; `make` also links it at `macos-server/compile_commands.json`.
 
 #### CLI Options
 ```text
-./penbridge-server [options]
+./stylus-cast-server [options]
 
   --delay <ms|auto>      Constant playout delay that hides Wi-Fi jitter; 0 = off (default: auto)
   --smooth <0-10>        Stroke smoothing; 0 = off (default: 4)
@@ -109,15 +109,15 @@ Both options write `build/compile_commands.json`, which clangd finds automatical
 ### 3. Grant macOS Accessibility Permission
 CoreGraphics `CGEventPost(kCGHIDEventTap, ...)` requires macOS Accessibility authorization:
 1. Open **System Settings > Privacy & Security > Accessibility**.
-2. Enable your terminal app (**Terminal**, **iTerm2**, or **VS Code**) or add the `penbridge-server` binary directly.
-3. Alternatively, run `./penbridge-server --prompt-accessibility` to trigger the macOS system prompt automatically.
+2. Enable your terminal app (**Terminal**, **iTerm2**, or **VS Code**) or add the `stylus-cast-server` binary directly.
+3. Alternatively, run `./stylus-cast-server --prompt-accessibility` to trigger the macOS system prompt automatically.
 
 ### 4. Build & Install the Android Client (`android-client/`)
 1. Open `android-client/` in **Android Studio** (or build via Gradle CLI with `./gradlew assembleDebug`; needs JDK 21 installed and Android SDK platform 34).
 2. Connect your Samsung Galaxy phone over USB with **USB Debugging** enabled and install the app (`Run 'app'` or `adb install -r app/build/outputs/apk/debug/app-debug.apk`).
-3. Launch **PenBridge** on the phone:
+3. Launch **Stylus-Cast** on the phone:
    - The app locks to **landscape**, enters edge-to-edge fullscreen, and outlines the active letterboxed drawing area matching your Mac's `16:10` display aspect ratio.
-   - Within 1 second of starting `./penbridge-server`, the status indicator in the top-right corner switches from `Searching on hotspot...` to `Connected: <Mac IP>`.
+   - Within 1 second of starting `./stylus-cast-server`, the status indicator in the top-right corner switches from `Searching on hotspot...` to `Connected: <Mac IP>`.
    - **Manual IP Override / Aspect Ratio:** Tap the top-right status pill with your **finger** (finger touches are ignored for drawing so palm rests never move the cursor) to manually enter the Mac's IP address or switch aspect ratios (`16:10`, `16:9`, `3:2`, `21:9`). With a manual IP the pill turns green only once that Mac's beacon is heard; packets are sent either way.
 
 ---
@@ -126,7 +126,7 @@ CoreGraphics `CGEventPost(kCGHIDEventTap, ...)` requires macOS Accessibility aut
 
 1. Start the macOS server with live statistics enabled:
    ```bash
-   ./macos-server/penbridge-server --stats --verbose
+   ./macos-server/stylus-cast-server --stats --verbose
    ```
 2. On your Samsung Galaxy phone, hover and draw rapid circles with the S-Pen.
 3. Observe the terminal output on your Mac:

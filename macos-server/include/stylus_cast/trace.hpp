@@ -1,12 +1,12 @@
 #pragma once
 
-#include "penbridge/pen_sample.hpp"
+#include "stylus_cast/pen_sample.hpp"
 
 #include <cstdint>
 #include <cstdio>
 #include <string>
 
-namespace penbridge {
+namespace stylus_cast {
 
 // Optional CSV recording of every received ("in") and replayed ("out") sample.
 class Trace {
@@ -24,4 +24,4 @@ private:
     std::FILE* file_ = nullptr;
 };
 
-} // namespace penbridge
+} // namespace stylus_cast

@@ -1,4 +1,4 @@
-package com.penbridge.client
+package com.styluscast.client
 
 import android.annotation.SuppressLint
 import android.content.Context

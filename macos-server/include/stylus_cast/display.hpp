@@ -5,7 +5,7 @@
 #include <cstddef>
 #include <vector>
 
-namespace penbridge {
+namespace stylus_cast {
 
 struct DisplayInfo {
     CGDirectDisplayID id          = 0;
@@ -21,4 +21,4 @@ void                     printDisplays(const std::vector<DisplayInfo>& displays)
 // Area of the display the tablet maps to, letterboxed to `aspect` if it is > 0.
 CGRect computeActiveRect(CGRect bounds, double aspect);
 
-} // namespace penbridge
+} // namespace stylus_cast

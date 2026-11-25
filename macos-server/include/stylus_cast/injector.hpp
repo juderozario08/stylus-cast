@@ -1,11 +1,11 @@
 #pragma once
 
-#include "penbridge/pen_sample.hpp"
-#include "penbridge/pen_state.hpp"
+#include "stylus_cast/pen_sample.hpp"
+#include "stylus_cast/pen_state.hpp"
 
 #include <ApplicationServices/ApplicationServices.h>
 
-namespace penbridge {
+namespace stylus_cast {
 
 bool hasAccessibilityPermission(bool prompt);
 void printAccessibilityWarning();
@@ -35,4 +35,4 @@ private:
     CGPoint          lastPoint_;
 };
 
-} // namespace penbridge
+} // namespace stylus_cast

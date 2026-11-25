@@ -1,9 +1,9 @@
 #include "check.hpp"
-#include "penbridge/tablet_events.hpp"
+#include "stylus_cast/tablet_events.hpp"
 
 #include <IOKit/hidsystem/IOLLEvent.h>
 
-namespace penbridge::test {
+namespace stylus_cast::test {
 
 namespace {
 
@@ -67,4 +67,4 @@ void tabletEventTests() {
     CHECK(c.x == 1439.0 && c.y == 899.0);
 }
 
-} // namespace penbridge::test
+} // namespace stylus_cast::test

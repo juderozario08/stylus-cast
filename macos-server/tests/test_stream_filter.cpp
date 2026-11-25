@@ -1,7 +1,7 @@
 #include "check.hpp"
-#include "penbridge/stream_filter.hpp"
+#include "stylus_cast/stream_filter.hpp"
 
-namespace penbridge::test {
+namespace stylus_cast::test {
 
 void streamFilterTests() {
     StreamFilter f;
@@ -20,4 +20,4 @@ void streamFilterTests() {
     CHECK(f.check(1, 2, 12010) == Verdict::Foreign);
 }
 
-} // namespace penbridge::test
+} // namespace stylus_cast::test

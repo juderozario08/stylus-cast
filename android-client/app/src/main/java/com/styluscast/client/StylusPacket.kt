@@ -1,4 +1,4 @@
-package com.penbridge.client
+package com.styluscast.client
 
 import kotlin.math.atan
 import kotlin.math.cos

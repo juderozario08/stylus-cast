@@ -1,6 +1,6 @@
-#include "penbridge/trace.hpp"
+#include "stylus_cast/trace.hpp"
 
-namespace penbridge {
+namespace stylus_cast {
 
 Trace::~Trace() {
     if (file_ != nullptr) {
@@ -31,4 +31,4 @@ void Trace::output(int64_t nowUs, const PenSample& sample) {
     }
 }
 
-} // namespace penbridge
+} // namespace stylus_cast

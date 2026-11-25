@@ -1,6 +1,6 @@
-#include "penbridge/pen_state.hpp"
+#include "stylus_cast/pen_state.hpp"
 
-namespace penbridge {
+namespace stylus_cast {
 
 void PenSteps::push(PenStep step) {
     if (count_ < items_.size()) {
@@ -99,4 +99,4 @@ void PenState::ensureTool(PenSteps& out, bool eraser) {
     out.push({PenAction::ProximityEnter, PenButton::Left, eraser_});
 }
 
-} // namespace penbridge
+} // namespace stylus_cast

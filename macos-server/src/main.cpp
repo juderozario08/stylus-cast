@@ -1,8 +1,8 @@
-#include "penbridge/beacon.hpp"
-#include "penbridge/config.hpp"
-#include "penbridge/display.hpp"
-#include "penbridge/injector.hpp"
-#include "penbridge/server.hpp"
+#include "stylus_cast/beacon.hpp"
+#include "stylus_cast/config.hpp"
+#include "stylus_cast/display.hpp"
+#include "stylus_cast/injector.hpp"
+#include "stylus_cast/server.hpp"
 
 #include <atomic>
 #include <csignal>
@@ -18,7 +18,7 @@ void onSignal(int /*signal*/) {
     g_running.store(false, std::memory_order_relaxed);
 }
 
-CGRect selectDisplay(penbridge::ServerConfig& config, const std::vector<penbridge::DisplayInfo>& displays) {
+CGRect selectDisplay(stylus_cast::ServerConfig& config, const std::vector<stylus_cast::DisplayInfo>& displays) {
     if (displays.empty()) {
         std::cerr << "[Warning] Could not query active displays; defaulting to 1920x1200 bounds.\n";
         return CGRectMake(0, 0, 1920, 1200);
@@ -31,11 +31,11 @@ CGRect selectDisplay(penbridge::ServerConfig& config, const std::vector<penbridg
     return displays[config.displayIndex].bounds;
 }
 
-void printBanner(const penbridge::ServerConfig& config, const CGRect& rect) {
+void printBanner(const stylus_cast::ServerConfig& config, const CGRect& rect) {
     const std::string delay =
         config.delayUs < 0 ? "auto" : std::to_string(config.delayUs / 1000) + " ms";
     std::cout << "========================================================================\n"
-                 " PenBridge macOS Server Started\n"
+                 " Stylus-Cast macOS Server Started\n"
                  "========================================================================\n"
               << "  UDP Stylus Port : " << config.udpPort << "\n"
               << "  Discovery Beacon: UDP broadcast :" << config.beaconPort << " (1 Hz)\n"
@@ -50,7 +50,7 @@ void printBanner(const penbridge::ServerConfig& config, const CGRect& rect) {
 } // namespace
 
 int main(int argc, char* argv[]) {
-    using namespace penbridge;
+    using namespace stylus_cast;
 
     ServerConfig config;
     switch (parseArguments(argc, argv, config)) {
@@ -84,6 +84,6 @@ int main(int argc, char* argv[]) {
     const Beacon beacon(config.beaconPort, config.verbose);
     server.run(g_running);
 
-    std::cout << "\nShutting down PenBridge server..." << std::endl;
+    std::cout << "\nShutting down Stylus-Cast server..." << std::endl;
     return 0;
 }

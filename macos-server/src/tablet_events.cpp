@@ -1,11 +1,11 @@
-#include "penbridge/tablet_events.hpp"
+#include "stylus_cast/tablet_events.hpp"
 
 #include <IOKit/hidsystem/IOLLEvent.h>
 
 #include <algorithm>
 #include <cstdint>
 
-namespace penbridge {
+namespace stylus_cast {
 
 namespace {
 
@@ -90,4 +90,4 @@ CGEventRef createEvent(CGEventSourceRef source, const PenStep& step, const PenSa
     return createPointEvent(source, step, sample, at);
 }
 
-} // namespace penbridge
+} // namespace stylus_cast

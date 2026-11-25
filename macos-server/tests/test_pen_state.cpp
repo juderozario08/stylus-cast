@@ -1,9 +1,9 @@
 #include "check.hpp"
-#include "penbridge/pen_state.hpp"
+#include "stylus_cast/pen_state.hpp"
 
 #include <initializer_list>
 
-namespace penbridge::test {
+namespace stylus_cast::test {
 
 namespace {
 
@@ -71,4 +71,4 @@ void penStateTests() {
     }
 }
 
-} // namespace penbridge::test
+} // namespace stylus_cast::test

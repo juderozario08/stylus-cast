@@ -2,7 +2,7 @@
 
 #include <cstdint>
 
-namespace penbridge {
+namespace stylus_cast {
 
 enum class Verdict : uint8_t { Accept, NewSession, Stale, Foreign };
 
@@ -24,4 +24,4 @@ private:
     uint64_t lost_    = 0;
 };
 
-} // namespace penbridge
+} // namespace stylus_cast

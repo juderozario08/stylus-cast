@@ -1,4 +1,4 @@
-#include "penbridge/config.hpp"
+#include "stylus_cast/config.hpp"
 
 #include <arpa/inet.h>
 #include <netinet/in.h>
@@ -7,14 +7,14 @@
 #include <cstdlib>
 #include <iostream>
 
-namespace penbridge {
+namespace stylus_cast {
 
 namespace {
 
 constexpr unsigned long MAX_DELAY_MS = 200;
 
 void printUsage(const char* program) {
-    std::cout << "PenBridge macOS Digitizer Server\n\n"
+    std::cout << "Stylus-Cast macOS Digitizer Server\n\n"
               << "Usage: " << program << " [options]\n\n"
               << "Options:\n"
                  "  --delay <ms|auto>      Constant playout delay that hides Wi-Fi jitter; 0 = off (default: auto)\n"
@@ -167,4 +167,4 @@ ParseResult parseArguments(int argc, const char* const* argv, ServerConfig& conf
     return ParseResult::Run;
 }
 
-} // namespace penbridge
+} // namespace stylus_cast

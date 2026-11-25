@@ -1,4 +1,4 @@
-package com.penbridge.client
+package com.styluscast.client
 
 import java.net.DatagramPacket
 import java.net.DatagramSocket
@@ -32,7 +32,7 @@ class BeaconDiscovery(
         if (session != null) return
         val newSession = Session()
         session = newSession
-        val thread = Thread({ runDiscoveryLoop(newSession) }, "PenBridge-BeaconDiscovery")
+        val thread = Thread({ runDiscoveryLoop(newSession) }, "StylusCast-BeaconDiscovery")
         thread.isDaemon = true
         thread.start()
     }

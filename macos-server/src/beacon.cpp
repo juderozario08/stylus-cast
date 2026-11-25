@@ -1,6 +1,6 @@
-#include "penbridge/beacon.hpp"
+#include "stylus_cast/beacon.hpp"
 
-#include "penbridge/protocol.hpp"
+#include "stylus_cast/protocol.hpp"
 
 #include <arpa/inet.h>
 #include <ifaddrs.h>
@@ -17,7 +17,7 @@
 #include <string>
 #include <vector>
 
-namespace penbridge {
+namespace stylus_cast {
 
 namespace {
 
@@ -102,4 +102,4 @@ void Beacon::run() {
     ::close(sock);
 }
 
-} // namespace penbridge
+} // namespace stylus_cast

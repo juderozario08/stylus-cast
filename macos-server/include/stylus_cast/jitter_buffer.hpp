@@ -1,6 +1,6 @@
 #pragma once
 
-#include "penbridge/pen_sample.hpp"
+#include "stylus_cast/pen_sample.hpp"
 
 #include <array>
 #include <cstddef>
@@ -8,7 +8,7 @@
 #include <deque>
 #include <optional>
 
-namespace penbridge {
+namespace stylus_cast {
 
 struct JitterStats {
     double p50Ms = 0.0;
@@ -86,4 +86,4 @@ private:
     uint64_t interpolated_ = 0;
 };
 
-} // namespace penbridge
+} // namespace stylus_cast

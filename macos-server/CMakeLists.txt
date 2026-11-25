@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.16)
-project(PenBridgeServer VERSION 1.1.0 LANGUAGES CXX)
+project(StylusCastServer VERSION 1.1.0 LANGUAGES CXX)
 
 if(NOT APPLE)
-    message(FATAL_ERROR "PenBridge server requires macOS (CoreGraphics).")
+    message(FATAL_ERROR "Stylus-Cast server requires macOS (CoreGraphics).")
 endif()
 
 if(NOT CMAKE_BUILD_TYPE)
@@ -14,7 +14,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON) # for clangd and other tooling
 
-add_library(penbridge STATIC
+add_library(stylus-cast STATIC
     src/beacon.cpp
     src/config.cpp
     src/display.cpp
@@ -30,15 +30,15 @@ add_library(penbridge STATIC
     src/tablet_events.cpp
     src/trace.cpp
 )
-target_include_directories(penbridge PUBLIC include)
-target_compile_options(penbridge PUBLIC -Wall -Wextra -Wpedantic -Wshadow -Wconversion)
-target_link_libraries(penbridge PUBLIC "-framework ApplicationServices" "-framework CoreFoundation")
+target_include_directories(stylus-cast PUBLIC include)
+target_compile_options(stylus-cast PUBLIC -Wall -Wextra -Wpedantic -Wshadow -Wconversion)
+target_link_libraries(stylus-cast PUBLIC "-framework ApplicationServices" "-framework CoreFoundation")
 
-add_executable(penbridge-server src/main.cpp)
-target_link_libraries(penbridge-server PRIVATE penbridge)
+add_executable(stylus-cast-server src/main.cpp)
+target_link_libraries(stylus-cast-server PRIVATE stylus-cast)
 
 enable_testing()
-add_executable(penbridge-tests
+add_executable(stylus-cast-tests
     tests/main.cpp
     tests/test_jitter_buffer.cpp
     tests/test_pen_state.cpp
@@ -47,5 +47,5 @@ add_executable(penbridge-tests
     tests/test_stroke_smoother.cpp
     tests/test_tablet_events.cpp
 )
-target_link_libraries(penbridge-tests PRIVATE penbridge)
-add_test(NAME PenBridgeTests COMMAND penbridge-tests)
+target_link_libraries(stylus-cast-tests PRIVATE stylus-cast)
+add_test(NAME StylusCastTests COMMAND stylus-cast-tests)

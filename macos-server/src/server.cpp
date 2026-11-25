@@ -1,6 +1,6 @@
-#include "penbridge/server.hpp"
+#include "stylus_cast/server.hpp"
 
-#include "penbridge/realtime.hpp"
+#include "stylus_cast/realtime.hpp"
 
 #include <arpa/inet.h>
 #include <sys/event.h>
@@ -13,7 +13,7 @@
 #include <iomanip>
 #include <iostream>
 
-namespace penbridge {
+namespace stylus_cast {
 
 namespace {
 
@@ -217,4 +217,4 @@ void Server::printStats() {
     lastStatsUs_ = nowUs;
 }
 
-} // namespace penbridge
+} // namespace stylus_cast

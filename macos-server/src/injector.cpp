@@ -1,12 +1,12 @@
-#include "penbridge/injector.hpp"
+#include "stylus_cast/injector.hpp"
 
-#include "penbridge/tablet_events.hpp"
+#include "stylus_cast/tablet_events.hpp"
 
 #include <CoreFoundation/CoreFoundation.h>
 
 #include <iostream>
 
-namespace penbridge {
+namespace stylus_cast {
 
 bool hasAccessibilityPermission(bool prompt) {
     const void*     keys[]   = {kAXTrustedCheckOptionPrompt};
@@ -27,8 +27,8 @@ void printAccessibilityWarning() {
                  " The pen cannot move the cursor until you grant it:\n"
                  "   1. Open System Settings -> Privacy & Security -> Accessibility\n"
                  "   2. Enable your terminal app (Terminal / iTerm2 / VS Code) or the\n"
-                 "      'penbridge-server' binary directly.\n"
-                 "   3. Restart penbridge-server (or pass --prompt-accessibility).\n"
+                 "      'stylus-cast-server' binary directly.\n"
+                 "   3. Restart stylus-cast-server (or pass --prompt-accessibility).\n"
                  "========================================================================\n\n";
 }
 
@@ -79,4 +79,4 @@ void Injector::post(const PenSteps& steps, const PenSample& sample, bool sampleI
     lastPoint_ = current;
 }
 
-} // namespace penbridge
+} // namespace stylus_cast

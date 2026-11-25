@@ -1,11 +1,11 @@
-#include "penbridge/realtime.hpp"
+#include "stylus_cast/realtime.hpp"
 
 #include <mach/mach.h>
 #include <mach/mach_time.h>
 #include <mach/thread_policy.h>
 #include <pthread.h>
 
-namespace penbridge {
+namespace stylus_cast {
 
 namespace {
 
@@ -39,4 +39,4 @@ int64_t monotonicMicros() {
     return static_cast<int64_t>(mach_absolute_time() * timebase().numer / timebase().denom / 1000);
 }
 
-} // namespace penbridge
+} // namespace stylus_cast

@@ -1,8 +1,8 @@
-#include "penbridge/stream_filter.hpp"
+#include "stylus_cast/stream_filter.hpp"
 
-#include "penbridge/protocol.hpp"
+#include "stylus_cast/protocol.hpp"
 
-namespace penbridge {
+namespace stylus_cast {
 
 Verdict StreamFilter::check(uint32_t clientAddr, uint32_t seq, int64_t nowMs) {
     const bool idle       = !active_ || (nowMs - lastMs_) > SESSION_IDLE_MS;
@@ -37,4 +37,4 @@ int64_t StreamFilter::silentMs(int64_t nowMs) const {
     return active_ ? nowMs - lastMs_ : 0;
 }
 
-} // namespace penbridge
+} // namespace stylus_cast

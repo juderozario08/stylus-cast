@@ -1,13 +1,13 @@
 #pragma once
 
-#include "penbridge/jitter_buffer.hpp"
-#include "penbridge/protocol.hpp"
-#include "penbridge/stroke_smoother.hpp"
+#include "stylus_cast/jitter_buffer.hpp"
+#include "stylus_cast/protocol.hpp"
+#include "stylus_cast/stroke_smoother.hpp"
 
 #include <cstdint>
 #include <string>
 
-namespace penbridge {
+namespace stylus_cast {
 
 struct ServerConfig {
     uint16_t    udpPort       = DEFAULT_UDP_PORT;
@@ -30,4 +30,4 @@ enum class ParseResult : uint8_t { Run, Help, Error };
 // Prints a message to stderr on Error and the usage text on Help.
 ParseResult parseArguments(int argc, const char* const* argv, ServerConfig& config);
 
-} // namespace penbridge
+} // namespace stylus_cast

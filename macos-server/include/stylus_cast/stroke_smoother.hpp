@@ -1,10 +1,10 @@
 #pragma once
 
-#include "penbridge/pen_sample.hpp"
+#include "stylus_cast/pen_sample.hpp"
 
 #include <cstdint>
 
-namespace penbridge {
+namespace stylus_cast {
 
 // One Euro filter: smooths strongly when the pen is slow (where hand tremor and sensor noise
 // show) and barely at all when it is fast (where lag would show).
@@ -46,4 +46,4 @@ private:
     int64_t       lastTimeUs_ = 0;
 };
 
-} // namespace penbridge
+} // namespace stylus_cast

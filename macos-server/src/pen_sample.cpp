@@ -1,6 +1,6 @@
-#include "penbridge/pen_sample.hpp"
+#include "stylus_cast/pen_sample.hpp"
 
-namespace penbridge {
+namespace stylus_cast {
 
 bool PenSample::inContact() const {
     return type == PACKET_TYPE_DOWN || type == PACKET_TYPE_MOVE;
@@ -18,4 +18,4 @@ PenSample toSample(const StylusPacket& packet) {
     return sample;
 }
 
-} // namespace penbridge
+} // namespace stylus_cast

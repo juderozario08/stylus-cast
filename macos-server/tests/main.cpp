@@ -3,7 +3,7 @@
 #include <cmath>
 #include <cstdio>
 
-namespace penbridge::test {
+namespace stylus_cast::test {
 
 namespace {
 int g_failures = 0;
@@ -26,10 +26,10 @@ bool near(double a, double b, double epsilon) {
     return std::fabs(a - b) <= epsilon;
 }
 
-} // namespace penbridge::test
+} // namespace stylus_cast::test
 
 int main() {
-    using namespace penbridge::test;
+    using namespace stylus_cast::test;
     protocolTests();
     streamFilterTests();
     penStateTests();
@@ -40,6 +40,6 @@ int main() {
         std::fprintf(stderr, "[FAIL] %d check(s) failed\n", failureCount());
         return 1;
     }
-    std::printf("[PASS] All PenBridge tests passed (%d checks).\n", g_checks);
+    std::printf("[PASS] All Stylus-Cast tests passed (%d checks).\n", g_checks);
     return 0;
 }

@@ -14,5 +14,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "PenBridgeClient"
+rootProject.name = "StylusCastClient"
 include(":app")

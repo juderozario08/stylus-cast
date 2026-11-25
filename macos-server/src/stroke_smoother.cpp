@@ -1,9 +1,9 @@
-#include "penbridge/stroke_smoother.hpp"
+#include "stylus_cast/stroke_smoother.hpp"
 
 #include <algorithm>
 #include <cmath>
 
-namespace penbridge {
+namespace stylus_cast {
 
 namespace {
 
@@ -90,4 +90,4 @@ PenSample StrokeSmoother::apply(const PenSample& sample) {
     return out;
 }
 
-} // namespace penbridge
+} // namespace stylus_cast

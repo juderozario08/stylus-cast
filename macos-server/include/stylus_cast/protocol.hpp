@@ -3,7 +3,7 @@
 #include <cstddef>
 #include <cstdint>
 
-namespace penbridge {
+namespace stylus_cast {
 
 // Packet types (offset 0)
 inline constexpr uint8_t PACKET_TYPE_HOVER = 0; // ACTION_HOVER_MOVE
@@ -59,4 +59,4 @@ uint32_t sequenceGap(uint32_t incoming, uint32_t last);
 double normalizeU16(uint16_t value);   // [0, 65535] -> [0, 1]
 double normalizeTilt(int8_t degrees);  // [-90, 90]  -> [-1, 1]
 
-} // namespace penbridge
+} // namespace stylus_cast

@@ -1,11 +1,11 @@
 #include "check.hpp"
-#include "penbridge/stroke_smoother.hpp"
+#include "stylus_cast/stroke_smoother.hpp"
 
 #include <cmath>
 #include <random>
 #include <vector>
 
-namespace penbridge::test {
+namespace stylus_cast::test {
 
 namespace {
 
@@ -80,4 +80,4 @@ void strokeSmootherTests() {
     CHECK(s.apply(p).x == 0.9);
 }
 
-} // namespace penbridge::test
+} // namespace stylus_cast::test

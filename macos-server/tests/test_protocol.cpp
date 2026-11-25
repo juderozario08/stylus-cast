@@ -1,9 +1,9 @@
 #include "check.hpp"
-#include "penbridge/protocol.hpp"
+#include "stylus_cast/protocol.hpp"
 
 #include <cstring>
 
-namespace penbridge::test {
+namespace stylus_cast::test {
 
 void protocolTests() {
     StylusPacket packet{};
@@ -38,4 +38,4 @@ void protocolTests() {
     CHECK(normalizeTilt(120) == 1.0 && normalizeTilt(-120) == -1.0);
 }
 
-} // namespace penbridge::test
+} // namespace stylus_cast::test

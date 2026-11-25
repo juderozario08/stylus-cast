@@ -1,4 +1,4 @@
-package com.penbridge.client
+package com.styluscast.client
 
 import android.os.Process
 import java.net.DatagramPacket
@@ -90,7 +90,7 @@ class UdpSender(
             } finally {
                 consumerLock.unlock()
             }
-        }, "PenBridge-UdpSender")
+        }, "StylusCast-UdpSender")
         thread.isDaemon = true
         newSession.thread = thread
         session = newSession

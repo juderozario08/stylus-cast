@@ -2,7 +2,7 @@
 
 #include <string>
 
-namespace penbridge::test {
+namespace stylus_cast::test {
 
 void check(bool passed, const char* file, int line, const std::string& expression);
 int  failureCount();
@@ -16,7 +16,7 @@ void jitterBufferTests();
 void strokeSmootherTests();
 void tabletEventTests();
 
-} // namespace penbridge::test
+} // namespace stylus_cast::test
 
 // Not assert(): Release builds define NDEBUG, which would silently remove every check.
-#define CHECK(expression) ::penbridge::test::check((expression), __FILE__, __LINE__, #expression)
+#define CHECK(expression) ::stylus_cast::test::check((expression), __FILE__, __LINE__, #expression)

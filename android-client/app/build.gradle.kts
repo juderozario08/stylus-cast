@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.penbridge.client"
+    namespace = "com.styluscast.client"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.penbridge.client"
+        applicationId = "com.styluscast.client"
         minSdk = 29 // Android 10+ (WIFI_MODE_FULL_LOW_LATENCY)
         targetSdk = 34
         versionCode = 3

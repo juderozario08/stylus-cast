@@ -1,11 +1,11 @@
 #include "check.hpp"
-#include "penbridge/jitter_buffer.hpp"
+#include "stylus_cast/jitter_buffer.hpp"
 
 #include <algorithm>
 #include <cmath>
 #include <vector>
 
-namespace penbridge::test {
+namespace stylus_cast::test {
 
 namespace {
 
@@ -179,4 +179,4 @@ void jitterBufferTests() {
     passThroughAndLegacy();
 }
 
-} // namespace penbridge::test
+} // namespace stylus_cast::test

@@ -1,12 +1,12 @@
 #pragma once
 
-#include "penbridge/pen_sample.hpp"
+#include "stylus_cast/pen_sample.hpp"
 
 #include <array>
 #include <cstddef>
 #include <cstdint>
 
-namespace penbridge {
+namespace stylus_cast {
 
 enum class PenAction : uint8_t { ProximityEnter, ProximityLeave, Hover, Press, Drag, Release };
 enum class PenButton : uint8_t { Left, Right };
@@ -53,4 +53,4 @@ private:
     PenButton button_ = PenButton::Left;
 };
 
-} // namespace penbridge
+} // namespace stylus_cast

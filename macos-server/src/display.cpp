@@ -1,11 +1,11 @@
-#include "penbridge/display.hpp"
+#include "stylus_cast/display.hpp"
 
 #include <algorithm>
 #include <cstdint>
 #include <iomanip>
 #include <iostream>
 
-namespace penbridge {
+namespace stylus_cast {
 
 std::vector<DisplayInfo> enumerateDisplays() {
     uint32_t count = 0;
@@ -57,4 +57,4 @@ CGRect computeActiveRect(CGRect bounds, double aspect) {
                       bounds.origin.y + (bounds.size.height - height) * 0.5, width, height);
 }
 
-} // namespace penbridge
+} // namespace stylus_cast
