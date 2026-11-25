@@ -1,0 +1,57 @@
+# --- macOS server (C++ / CMake) ---
+build/
+cmake-build-*/
+CMakeUserPresets.json
+compile_commands.json
+.cache/
+/macos-server/penbridge-server
+/macos-server/test_protocol
+*.o
+*.a
+*.dylib
+*.dSYM/
+
+# --- Android client (Gradle / Kotlin) ---
+.gradle/
+.kotlin/
+.cxx/
+.externalNativeBuild/
+captures/
+local.properties
+*.apk
+*.aab
+*.ap_
+*.dex
+*.hprof
+*.idsig
+
+# --- Build output for sharing ---
+/dist/
+
+# --- Signing keys and secrets: never commit ---
+*.jks
+*.keystore
+keystore.properties
+*.p12
+*.pem
+.env
+.env.*
+!.env.example
+
+# --- Pen recordings (--trace) and logs ---
+*.csv
+*.log
+
+# --- Editors and tools ---
+.idea/
+*.iml
+.vscode/
+*.swp
+*.swo
+*~
+.claude/settings.local.json
+
+# --- Operating systems ---
+.DS_Store
+._*
+Thumbs.db
