@@ -48,7 +48,7 @@ Stylus-Cast turns a Samsung Galaxy phone with an S-Pen into an offline, wireless
 │           │   ├── StylusPacket.kt      # 16-byte zero-allocation binary encoder & planar tilt math
 │           │   ├── UdpSender.kt         # Lock-free SPSC ring buffer & high-priority UDP sender thread
 │           │   ├── BeaconDiscovery.kt   # UDP :9001 listener for "MAC_TABLET_SERVER" broadcast beacon
-│           │   ├── DigitizerView.kt     # Letterboxed canvas, historical sample unrolling & palm rejection
+│           │   ├── DigitizerView.kt     # Full-screen canvas, historical sample unrolling & palm rejection
 │           │   └── MainActivity.kt      # Immersive fullscreen, WIFI_MODE_FULL_LOW_LATENCY & settings dialog
 │           └── res/values/
 │               ├── strings.xml
@@ -116,9 +116,9 @@ CoreGraphics `CGEventPost(kCGHIDEventTap, ...)` requires macOS Accessibility aut
 1. Open `android-client/` in **Android Studio** (or build via Gradle CLI with `./gradlew assembleDebug`; needs JDK 21 installed and Android SDK platform 34).
 2. Connect your Samsung Galaxy phone over USB with **USB Debugging** enabled and install the app (`Run 'app'` or `adb install -r app/build/outputs/apk/debug/app-debug.apk`).
 3. Launch **Stylus-Cast** on the phone:
-   - The app locks to **landscape**, enters edge-to-edge fullscreen, and outlines the active letterboxed drawing area matching your Mac's `16:10` display aspect ratio.
+   - The app locks to **landscape**, enters edge-to-edge fullscreen, and uses the whole screen as the drawing area. Phones are wider than most Mac displays, so in this mode shapes come out narrower on the Mac than drawn; start the server with `--aspect` set to the phone's screen shape (e.g. `--aspect 19.3:9`) to keep proportions, or pick a fixed ratio below.
    - Within 1 second of starting `./stylus-cast-server`, the status indicator in the top-right corner switches from `Searching on hotspot...` to `Connected: <Mac IP>`.
-   - **Manual IP Override / Aspect Ratio:** Tap the top-right status pill with your **finger** (finger touches are ignored for drawing so palm rests never move the cursor) to manually enter the Mac's IP address or switch aspect ratios (`16:10`, `16:9`, `3:2`, `21:9`). With a manual IP the pill turns green only once that Mac's beacon is heard; packets are sent either way.
+   - **Manual IP Override / Canvas Size:** Tap the top-right status pill with your **finger** (finger touches are ignored for drawing so palm rests never move the cursor) to manually enter the Mac's IP address or switch the canvas from `Full` to a Mac aspect ratio (`16:10`, `16:9`, `3:2`, `21:9`). With a manual IP the pill turns green only once that Mac's beacon is heard; packets are sent either way.
 
 ---
 
@@ -156,8 +156,8 @@ CoreGraphics `CGEventPost(kCGHIDEventTap, ...)` requires macOS Accessibility aut
 | --- | --- | --- | --- | --- |
 | `0` | 1 B | `uint8_t` | `type` | `0` = Hover (`ACTION_HOVER_MOVE`), `1` = Down (`ACTION_DOWN`), `2` = Move (`ACTION_MOVE` / historical), `3` = Up/Cancel (`ACTION_UP` / `ACTION_CANCEL`) |
 | `1` | 1 B | `uint8_t` | `buttons` | Bit `0` (`0x01`): S-Pen primary barrel button (`BUTTON_STYLUS_PRIMARY`). Bit `1` (`0x02`): Eraser tool (`TOOL_TYPE_ERASER`, or the secondary stylus button). |
-| `2` | 2 B | `uint16_t` | `x` | Normalized horizontal coordinate inside letterboxed active area mapped to `0..65535` |
-| `4` | 2 B | `uint16_t` | `y` | Normalized vertical coordinate inside letterboxed active area mapped to `0..65535` |
+| `2` | 2 B | `uint16_t` | `x` | Normalized horizontal coordinate inside the active drawing area mapped to `0..65535` |
+| `4` | 2 B | `uint16_t` | `y` | Normalized vertical coordinate inside the active drawing area mapped to `0..65535` |
 | `6` | 2 B | `uint16_t` | `pressure` | Clamped stylus pressure `[0.0, 1.0]` mapped to `0..65535` (`0` when `type == 0` hover) |
 | `8` | 1 B | `int8_t` | `tiltX` | Horizontal tilt in degrees, clamped to `[-90, 90]`; positive = pen leans right |
 | `9` | 1 B | `int8_t` | `tiltY` | Vertical tilt in degrees, clamped to `[-90, 90]`; positive = pen leans toward the user |

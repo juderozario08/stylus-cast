@@ -11,8 +11,8 @@ android {
         applicationId = "com.styluscast.client"
         minSdk = 29 // Android 10+ (WIFI_MODE_FULL_LOW_LATENCY)
         targetSdk = 34
-        versionCode = 3
-        versionName = "1.1.0"
+        versionCode = 4
+        versionName = "1.2.0"
     }
 
     buildTypes {

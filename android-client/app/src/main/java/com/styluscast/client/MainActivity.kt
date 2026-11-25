@@ -33,13 +33,14 @@ class MainActivity : AppCompatActivity() {
     companion object {
         private const val PREFS_NAME = "styluscast_prefs"
         private const val KEY_MANUAL_IP = "manual_ip"
-        private const val KEY_ASPECT_INDEX = "aspect_index"
+        private const val KEY_CANVAS_INDEX = "canvas_index" // was "aspect_index" before "Full" was added
 
         // The server beacons at 1Hz; treat the link as down after several missed beacons
         private const val BEACON_TIMEOUT_MS = 4000L
         private const val STATUS_POLL_MS = 1000L
 
         private val ASPECT_OPTIONS = arrayOf(
+            "Full screen (largest canvas)" to Pair(0f, 0f),
             "16:10 (MacBook Pro / Air)" to Pair(16f, 10f),
             "16:9 (External 4K / 1080p)" to Pair(16f, 9f),
             "3:2 (Productivity Display)" to Pair(3f, 2f),
@@ -182,7 +183,7 @@ class MainActivity : AppCompatActivity() {
     private fun restoreSavedPreferences() {
         val prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
         val manualIp = prefs.getString(KEY_MANUAL_IP, "")?.trim().orEmpty()
-        val aspectIdx = prefs.getInt(KEY_ASPECT_INDEX, 0).coerceIn(0, ASPECT_OPTIONS.lastIndex)
+        val aspectIdx = prefs.getInt(KEY_CANVAS_INDEX, 0).coerceIn(0, ASPECT_OPTIONS.lastIndex)
 
         applyAspectSelection(aspectIdx)
 
@@ -252,7 +253,7 @@ class MainActivity : AppCompatActivity() {
     private fun showConfigurationDialog() {
         val prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
         val currentManualIp = prefs.getString(KEY_MANUAL_IP, "").orEmpty()
-        val currentAspectIdx = prefs.getInt(KEY_ASPECT_INDEX, 0).coerceIn(0, ASPECT_OPTIONS.lastIndex)
+        val currentAspectIdx = prefs.getInt(KEY_CANVAS_INDEX, 0).coerceIn(0, ASPECT_OPTIONS.lastIndex)
 
         val container = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
@@ -279,7 +280,7 @@ class MainActivity : AppCompatActivity() {
         container.addView(aspectSpinner)
 
         AlertDialog.Builder(this)
-            .setTitle("Stylus-Cast Connection & Aspect Ratio")
+            .setTitle("Stylus-Cast Connection & Canvas Size")
             .setView(container)
             .setPositiveButton("Apply") { _, _ ->
                 val newIp = ipInput.text.toString().trim()
@@ -287,7 +288,7 @@ class MainActivity : AppCompatActivity() {
 
                 prefs.edit()
                     .putString(KEY_MANUAL_IP, newIp)
-                    .putInt(KEY_ASPECT_INDEX, newAspectIdx)
+                    .putInt(KEY_CANVAS_INDEX, newAspectIdx)
                     .apply()
 
                 applyAspectSelection(newAspectIdx)

@@ -6,6 +6,7 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.DashPathEffect
 import android.graphics.Paint
+import android.graphics.Rect
 import android.graphics.RectF
 import android.os.Build
 import android.os.SystemClock
@@ -17,7 +18,7 @@ import android.view.View
  * Full-screen low-GPU-overhead digitizer view that:
  * 1. Requests unbuffered stylus dispatch (`requestUnbufferedDispatch(SOURCE_STYLUS)`).
  * 2. Filters strictly for `TOOL_TYPE_STYLUS` / `TOOL_TYPE_ERASER` (rejects accidental palm/finger touches).
- * 3. Letterboxes the active drawing region to match the target Mac display aspect ratio (default 16:10).
+ * 3. Uses the whole screen as the drawing region, or letterboxes it to a chosen Mac display aspect ratio.
  * 4. Unrolls all `0 until event.historySize` historical samples as `TYPE_MOVE` before the current sample.
  * 5. Allows finger taps ONLY on the top-right status/settings pill for manual IP override & aspect ratio selection.
  */
@@ -28,12 +29,12 @@ class DigitizerView(
     private val onStatusPillTapped: () -> Unit
 ) : View(context) {
 
-    // Active letterboxed drawing area matching Mac aspect ratio
+    // Active drawing area; covers the whole view unless an aspect ratio is selected
     private val activeRect = RectF()
     private val statusPillRect = RectF()
 
-    private var targetAspectRatio: Float = 16.0f / 10.0f
-    private var aspectLabel: String = "16:10"
+    private var targetAspectRatio: Float = 0f // 0 = fill the whole view
+    private var aspectLabel: String = "Full"
     private var statusText: String = "Searching on hotspot (UDP :9001)..."
     private var isConnected: Boolean = false
 
@@ -184,13 +185,13 @@ class DigitizerView(
         super.onDetachedFromWindow()
     }
 
+    /** Letterboxes the canvas to [widthRatio]:[heightRatio], or fills the view if either is 0. */
     fun setAspectRatio(widthRatio: Float, heightRatio: Float, label: String) {
-        if (widthRatio > 0f && heightRatio > 0f) {
-            targetAspectRatio = widthRatio / heightRatio
-            aspectLabel = label
-            recomputeActiveRect(width, height)
-            invalidate()
-        }
+        targetAspectRatio =
+            if (widthRatio > 0f && heightRatio > 0f) widthRatio / heightRatio else 0f
+        aspectLabel = label
+        recomputeActiveRect(width, height)
+        invalidate()
     }
 
     fun updateConnectionStatus(connected: Boolean, displayStatus: String) {
@@ -204,40 +205,38 @@ class DigitizerView(
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
         recomputeActiveRect(w, h)
+        // The canvas reaches the screen edges, so strokes there must not trigger the back gesture
+        systemGestureExclusionRects = listOf(Rect(0, 0, w, h))
     }
 
     private fun recomputeActiveRect(viewWidth: Int, viewHeight: Int) {
         if (viewWidth <= 0 || viewHeight <= 0) return
 
-        val pad = 20f
-        val availW = (viewWidth - pad * 2f).coerceAtLeast(1f)
-        val availH = (viewHeight - pad * 2f).coerceAtLeast(1f)
-        val viewAspect = availW / availH
-
-        val activeW: Float
-        val activeH: Float
-        if (viewAspect > targetAspectRatio) {
-            // Pillarbox left/right
-            activeH = availH
-            activeW = activeH * targetAspectRatio
-        } else {
-            // Letterbox top/bottom
-            activeW = availW
-            activeH = activeW / targetAspectRatio
+        var activeW = viewWidth.toFloat()
+        var activeH = viewHeight.toFloat()
+        if (targetAspectRatio > 0f) {
+            if (activeW / activeH > targetAspectRatio) {
+                // Pillarbox left/right
+                activeW = activeH * targetAspectRatio
+            } else {
+                // Letterbox top/bottom
+                activeH = activeW / targetAspectRatio
+            }
         }
 
         val left = (viewWidth - activeW) * 0.5f
         val top = (viewHeight - activeH) * 0.5f
         activeRect.set(left, top, left + activeW, top + activeH)
 
-        // Position status pill at top-right inside active area
+        // Position status pill at top-right inside active area, clear of rounded screen corners
+        val pillInset = 40f
         val pillWidth = 580f.coerceAtMost(viewWidth * 0.65f)
         val pillHeight = 56f
         statusPillRect.set(
-            activeRect.right - pillWidth - 16f,
-            activeRect.top + 16f,
-            activeRect.right - 16f,
-            activeRect.top + 16f + pillHeight
+            activeRect.right - pillWidth - pillInset,
+            activeRect.top + pillInset,
+            activeRect.right - pillInset,
+            activeRect.top + pillInset + pillHeight
         )
     }
 
@@ -245,7 +244,7 @@ class DigitizerView(
         // 1. Dark letterbox background
         canvas.drawRect(0f, 0f, width.toFloat(), height.toFloat(), letterboxPaint)
 
-        // 2. Active Mac-aspect-ratio digitizer region
+        // 2. Active digitizer region
         canvas.drawRect(activeRect, activeAreaFillPaint)
 
         // 3. Subtle rule-of-thirds guides for spatial orientation without looking at phone
@@ -268,8 +267,12 @@ class DigitizerView(
             activeRect.right, activeRect.top + thirdH * 2f, gridPaint
         )
 
-        // 4. Active region border
-        canvas.drawRect(activeRect, borderPaint)
+        // 4. Active region border, inset so the stroke stays on screen
+        val half = borderPaint.strokeWidth * 0.5f
+        canvas.drawRect(
+            activeRect.left + half, activeRect.top + half,
+            activeRect.right - half, activeRect.bottom - half, borderPaint
+        )
 
         // 5. Discreet connection status pill (tappable by finger to configure IP / aspect ratio)
         canvas.drawRoundRect(statusPillRect, 28f, 28f, statusBgPaint)
