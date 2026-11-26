@@ -31,7 +31,8 @@ object StylusPacket {
     const val BUTTON_PRIMARY: Int = 0x01
     const val BUTTON_ERASER: Int = 0x02
 
-    const val DEFAULT_UDP_PORT = 9000
+    const val DEFAULT_PORT = 9000
+    const val DEFAULT_UDP_PORT = DEFAULT_PORT
     const val DEFAULT_BEACON_PORT = 9001
     const val BEACON_PAYLOAD = "MAC_TABLET_SERVER"
 

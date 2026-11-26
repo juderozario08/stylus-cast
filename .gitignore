@@ -1,11 +1,13 @@
-# --- macOS server (C++ / CMake) ---
+# --- Desktop servers (C++ / CMake) ---
 build/
+build-*/
 cmake-build-*/
 CMakeUserPresets.json
 compile_commands.json
 .cache/
-/macos-server/stylus-cast-server
-/macos-server/test_protocol
+/server/stylus-cast-server
+/server/stylus-cast-server.exe
+/server/test_protocol
 *.o
 *.a
 *.dylib

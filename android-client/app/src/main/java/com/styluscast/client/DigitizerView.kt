@@ -18,14 +18,14 @@ import android.view.View
  * Full-screen low-GPU-overhead digitizer view that:
  * 1. Requests unbuffered stylus dispatch (`requestUnbufferedDispatch(SOURCE_STYLUS)`).
  * 2. Filters strictly for `TOOL_TYPE_STYLUS` / `TOOL_TYPE_ERASER` (rejects accidental palm/finger touches).
- * 3. Uses the whole screen as the drawing region, or letterboxes it to a chosen Mac display aspect ratio.
+ * 3. Uses the whole screen as the drawing region, or letterboxes it to a chosen display aspect ratio.
  * 4. Unrolls all `0 until event.historySize` historical samples as `TYPE_MOVE` before the current sample.
- * 5. Allows finger taps ONLY on the top-right status/settings pill for manual IP override & aspect ratio selection.
+ * 5. Allows finger taps ONLY on the top-right status/settings pill for connection & aspect ratio settings.
  */
 @SuppressLint("ViewConstructor") // only ever created in code by MainActivity
 class DigitizerView(
     context: Context,
-    private val udpSender: UdpSender,
+    private val packetSender: PacketSender,
     private val onStatusPillTapped: () -> Unit
 ) : View(context) {
 
@@ -35,7 +35,7 @@ class DigitizerView(
 
     private var targetAspectRatio: Float = 0f // 0 = fill the whole view
     private var aspectLabel: String = "Full"
-    private var statusText: String = "Searching on hotspot (UDP :9001)..."
+    private var statusText: String = "Searching (USB / Wi-Fi)..."
     private var isConnected: Boolean = false
 
     // Minimal low-GPU-overhead paints (all pre-allocated)
@@ -158,7 +158,7 @@ class DigitizerView(
         lastTiltX = tiltX
         lastTiltY = tiltY
         lastSendMs = SystemClock.uptimeMillis()
-        udpSender.enqueueEvent(type, buttons, x, y, pressure, tiltX, tiltY, timeNanos)
+        packetSender.enqueueEvent(type, buttons, x, y, pressure, tiltX, tiltY, timeNanos)
     }
 
     private fun setPenDown(down: Boolean) {
@@ -170,7 +170,7 @@ class DigitizerView(
         }
     }
 
-    /** Lifts the pen on the Mac if a stroke is in progress (e.g. the app is being paused). */
+    /** Lifts the pen on the host if a stroke is in progress (e.g. the app is being paused). */
     fun releasePen() {
         if (!penDown) return
         setPenDown(false)
@@ -274,7 +274,7 @@ class DigitizerView(
             activeRect.right - half, activeRect.bottom - half, borderPaint
         )
 
-        // 5. Discreet connection status pill (tappable by finger to configure IP / aspect ratio)
+        // 5. Discreet connection status pill (tappable by finger to configure connection / aspect ratio)
         canvas.drawRoundRect(statusPillRect, 28f, 28f, statusBgPaint)
         val cy = statusPillRect.centerY()
         canvas.drawCircle(statusPillRect.left + 28f, cy, 8f, statusDotPaint)
