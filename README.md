@@ -126,6 +126,7 @@ stylus-cast-server [options]
    make debug    # outputs dist/stylus-cast-debug.apk
    make release  # outputs dist/stylus-cast-release.apk (or stylus-cast-release-unsigned.apk)
    ```
+   This works the same on Windows, macOS and Linux (needs `make` and `cmake`). If `ANDROID_HOME` is unset or points at a missing folder, `make` uses Android Studio's SDK folder (`%LOCALAPPDATA%\Android\Sdk`, `~/Library/Android/sdk` or `~/Android/Sdk`). If `JAVA_HOME` is unset, it uses an installed JDK 21 or 17, because Gradle cannot run on newer JDKs. `make env` shows which ones it picked.
    *(Or open `android-client/` in **Android Studio** / run `./gradlew assembleDebug` with JDK 17–21 and Android SDK platform 34.)*
 2. Connect your Samsung Galaxy phone over USB with **USB Debugging** enabled and install the app (`adb install -r dist/stylus-cast-debug.apk`).
 
